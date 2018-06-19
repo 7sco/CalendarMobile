@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/colorLightBackground"
+    tools:context=".EventsActivity">
+
+
+    <TextView
+        android:id="@+id/currentDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Current Day"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <EditText
+        android:id="@+id/event_title"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:hint="Event Title"/>
+
+    <TextView
+        android:id="@+id/time_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="18sp"
+        android:hint="Pick Time"/>
+
+</LinearLayout>
+
+    <Button
+        android:id="@+id/pick_Time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Event"/>
+
+    <Button
+        android:id="@+id/addEvent_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Event"/>
+
+
+   <TextView
+       android:id="@+id/event_info"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Event Added: "
+       android:textColor="@android:color/white"
+       android:textSize="20sp"/>
+
+</LinearLayout>

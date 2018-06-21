@@ -8,7 +8,11 @@ public class DayDetails {
         private String weekDay;
         private List<Remainder> listRemainders;
 
-        public DayDetails(String weekDay, List<Remainder> listRemainders) {
+
+    public DayDetails() {
+    }
+
+    public DayDetails(String weekDay, List<Remainder> listRemainders) {
             this.weekDay = weekDay;
             this.listRemainders = listRemainders;
         }

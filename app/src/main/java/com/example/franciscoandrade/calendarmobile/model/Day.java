@@ -4,16 +4,16 @@ import java.util.List;
 
 public class Day {
     
-        private short dayNumber;
+        private int dayNumber;
         private DayDetails dayDetailsList;
 
 
 
-        public short getDayNumber() {
+        public int getDayNumber() {
             return dayNumber;
         }
 
-        public void setDayNumber(short dayNumber) {
+        public void setDayNumber(int dayNumber) {
             this.dayNumber = dayNumber;
         }
 

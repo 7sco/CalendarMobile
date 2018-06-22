@@ -22,6 +22,7 @@ import com.example.franciscoandrade.calendarmobile.presentation.EventContract;
 import com.example.franciscoandrade.calendarmobile.presentation.presenter.EventActivityPresenter;
 import com.example.franciscoandrade.calendarmobile.presentation.recyclerView.EventAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,16 +58,44 @@ public class EventsActivity extends AppCompatActivity implements EventContract.V
     private EventContract.Presenter presenter;
     private int currentDayNumber;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
         ButterKnife.bind(this);
+
+        presenter = new EventActivityPresenter(this);
         int dayNumber = getIntentData();
         currentDayNumber=dayNumber;
-        presenter = new EventActivityPresenter(this);
+        if(savedInstanceState!=null) {
+            String title= savedInstanceState.getString("title");
+            String startTime= savedInstanceState.getString("startTime");
+            String endTime= savedInstanceState.getString("endTime");
+            eventTitle.setText(title);
+            timeTextView.setText(startTime);
+            endtimeTextView.setText(endTime);
+
+        }
+
         getRemainders(dayNumber);
+
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (eventTitle.getText() !=null){
+            outState.putString("title", eventTitle.getText().toString());
+        }
+        if (timeTextView.getText()!=null) {
+            outState.putString("startTime", timeTextView.getText().toString());
+        }
+        if (endtimeTextView.getText()!=null) {
+            outState.putString("endTime", endtimeTextView.getText().toString());
+        }
+        super.onSaveInstanceState(outState);
+    }
+
 
     private void getRemainders(int dayNumber) {
         if (isNetworkAvailable()) {

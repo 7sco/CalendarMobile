@@ -7,9 +7,6 @@ public class Month {
     private String month;
     private List<Day> dayList;
 
-
-
-
     public String getMonth() {
         return month;
     }

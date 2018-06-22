@@ -1,5 +1,6 @@
 package com.example.franciscoandrade.calendarmobile.model;
 
+
 public class Remainder {
 
     private String title;

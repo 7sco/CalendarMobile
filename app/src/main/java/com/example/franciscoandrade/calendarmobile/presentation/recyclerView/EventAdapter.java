@@ -52,6 +52,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     }
 
+    public void addRemainderList(ArrayList<Remainder> listRemainder) {
+        listRemainders=listRemainder;
+    }
+
     public class EventViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.title_tv)
         TextView titleTv;

@@ -7,7 +7,6 @@ public class Year {
     private int yearNumber;
     private List<Month> monthsList;
 
-
     public int getYearNumber() {
         return yearNumber;
     }

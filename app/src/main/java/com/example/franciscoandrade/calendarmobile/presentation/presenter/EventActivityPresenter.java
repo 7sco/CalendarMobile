@@ -34,11 +34,6 @@ public class EventActivityPresenter implements EventContract.Presenter {
     @Override
     public void getEventsList(int dayNumber) {
         dayNumber=dayNumber-1;
-        database.goOffline();
-
-
-
-
         database.goOnline();
         tutorialRef = database.getReference("Calendar").child("2018").child("0").child("dayList").child(String.valueOf(dayNumber));
         tutorialRef.addValueEventListener(new ValueEventListener() {

@@ -5,13 +5,15 @@ import java.util.List;
 public class DayDetails {
     private String weekDay;
     private List<Remainder> listRemainders;
+    private int size;
 
     public DayDetails() {
     }
 
-    public DayDetails(String weekDay, List<Remainder> listRemainders) {
+    public DayDetails(String weekDay, List<Remainder> listRemainders, int size) {
         this.weekDay = weekDay;
         this.listRemainders = listRemainders;
+        this.size = size;
     }
 
     public String getWeekDay() {
@@ -28,6 +30,15 @@ public class DayDetails {
 
     public void setListRemainders(List<Remainder> listRemainders) {
         this.listRemainders = listRemainders;
+    }
+
+
+    public int getsize() {
+        return size;
+    }
+
+    public void setsize(int size) {
+        this.size = size;
     }
 }
 

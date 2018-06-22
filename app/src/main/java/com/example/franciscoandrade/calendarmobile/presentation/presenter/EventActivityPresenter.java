@@ -42,6 +42,13 @@ public class EventActivityPresenter implements EventContract.Presenter {
                 Day day = dataSnapshot.getValue(Day.class);
                 setListDays(day);
                 view.addEventVisible();
+                if (day.getDayDetailsList().getListRemainders()==null){
+                    tutorialRef.child("dayDetailsList").child("size").setValue(0);
+                }else {
+                    tutorialRef.child("dayDetailsList").child("size").setValue(day.getDayDetailsList().getListRemainders().size());
+                }
+
+
             }
 
             @Override
@@ -57,6 +64,7 @@ public class EventActivityPresenter implements EventContract.Presenter {
             List<Remainder> listRemainders = day.getDayDetailsList().getListRemainders();
             remainderTotal=listRemainders.size();
             view.setRecyclerView(listRemainders);
+
         } else {
             remainderTotal=0;
             view.setRecyclerViewEmpty();

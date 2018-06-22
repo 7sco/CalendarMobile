@@ -68,6 +68,7 @@ public class EventsActivity extends AppCompatActivity implements EventContract.V
         presenter = new EventActivityPresenter(this);
         int dayNumber = getIntentData();
         currentDayNumber=dayNumber;
+        Log.d("==", "onCreate: DAY#: "+dayNumber);
         if(savedInstanceState!=null) {
             String title= savedInstanceState.getString("title");
             String startTime= savedInstanceState.getString("startTime");
@@ -79,6 +80,8 @@ public class EventsActivity extends AppCompatActivity implements EventContract.V
         }
 
         getRemainders(dayNumber);
+
+
 
     }
 
@@ -148,6 +151,7 @@ public class EventsActivity extends AppCompatActivity implements EventContract.V
         adapter = new EventAdapter(remainderList);
         eventsRv.setAdapter(adapter);
         eventsRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        Log.d("===", "onBackPressed: StartSize= "+eventsRv.getAdapter().getItemCount());
     }
 
     @Override
@@ -205,7 +209,15 @@ public class EventsActivity extends AppCompatActivity implements EventContract.V
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        int itemCount=eventsRv.getAdapter().getItemCount();
+        int num=currentDayNumber;
+        Intent i =getIntent();
+        Bundle bundle = new Bundle();
+        Log.d("===", "onBackPressed: EndSize= "+eventsRv.getAdapter().getItemCount());
+        bundle.putInt("size", itemCount);
+        bundle.putInt("dayNumber", num);
+        i.putExtras(bundle);
+        setResult(RESULT_OK, i);
         finish();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.franciscoandrade.calendarmobile.presentation.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import com.example.franciscoandrade.calendarmobile.model.DayDetails;
 import com.example.franciscoandrade.calendarmobile.model.Month;
 import com.example.franciscoandrade.calendarmobile.model.Remainder;
 import com.example.franciscoandrade.calendarmobile.presentation.CalendarContract;
+import com.example.franciscoandrade.calendarmobile.presentation.LaunchActivityInterface;
 import com.example.franciscoandrade.calendarmobile.presentation.presenter.CalendarActivityPresenter;
 import com.example.franciscoandrade.calendarmobile.presentation.recyclerView.CalendarAdapter;
 
@@ -30,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CalendarActivity extends AppCompatActivity implements CalendarContract.View {
+public class CalendarActivity extends AppCompatActivity implements CalendarContract.View, LaunchActivityInterface {
 
     @BindView(R.id.year)
     TextView yearTV;
@@ -54,7 +57,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarContr
     private String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     private String[] weekDays = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     private int counter = 5;
-
+    List<Day> listDays;
     CalendarActivityPresenter presenter = new CalendarActivityPresenter(this);
 
     @Override
@@ -64,8 +67,25 @@ public class CalendarActivity extends AppCompatActivity implements CalendarContr
         ButterKnife.bind(this);
         //getDataOffline();
         getDataFirebase();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                int size= bundle.getInt("size");
+                int dayNumber= (bundle.getInt("dayNumber")-1);
+                Log.d("==", "onActivityResult: #: "+dayNumber);
+                Log.d("==", "onActivityResult: "+listDays.get(dayNumber).getDayNumber());
+                Log.d("==", "onActivityResult: "+listDays.get(dayNumber).getDayDetailsList().getsize());
+                listDays.get(dayNumber).getDayDetailsList().setsize(size);
+                Log.d("==", "onActivityResult: "+listDays.get(dayNumber).getDayDetailsList().getsize());
+                adapter.notifyItemChanged(dayNumber, null);
 
+            }
+        }
     }
 
     private void getDataFirebase() {
@@ -88,7 +108,10 @@ public class CalendarActivity extends AppCompatActivity implements CalendarContr
 
     @Override
     public void setRecyclerView(List<Day> monthDaysList, String month) {
-        adapter = new CalendarAdapter(monthDaysList, month);
+
+        adapter = new CalendarAdapter( monthDaysList, month, this);
+        listDays= new ArrayList<>();
+        listDays.addAll(monthDaysList);
         calendarRv.setAdapter(adapter);
         calendarRv.setHasFixedSize(false);
         calendarRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
@@ -162,7 +185,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarContr
     private void fillDetailsList() {
         dayDetailsList = new ArrayList<>();
         for (int i = 0; i < weekDays.length; i++) {
-            dayDetailsList.add(new DayDetails(weekDays[i], remainderList));
+            dayDetailsList.add(new DayDetails(weekDays[i], remainderList, 0));
         }
     }
 
@@ -182,5 +205,13 @@ public class CalendarActivity extends AppCompatActivity implements CalendarContr
     }
 
 
-
+    @Override
+    public void passData(String weekDay, int dayNumber, int reminderTotal, String month) {
+        Intent view = new Intent(this, EventsActivity.class);
+        view.putExtra("weekDay", weekDay);
+        view.putExtra("dayNumber", dayNumber);
+        view.putExtra("remainderTotal", reminderTotal);
+        view.putExtra("month", month);
+        startActivityForResult(view, 1);
+    }
 }

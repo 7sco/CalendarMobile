@@ -69,7 +69,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         }
 
         public void onBind(Remainder remainder) {
-            if (remainder.getSatartTime() != null && remainder.getEndTime()!=null){
+            if (remainder!= null && remainder.getEndTime()!=null){
                 String timePeriod;
                 if(remainder.getSatartTime().equals("") && remainder.getEndTime().equals("")){
                     timePeriod= "All Day";

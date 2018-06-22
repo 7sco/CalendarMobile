@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.franciscoandrade.calendarmobile.R;
 import com.example.franciscoandrade.calendarmobile.model.Day;
+import com.example.franciscoandrade.calendarmobile.presentation.LaunchActivityInterface;
 import com.example.franciscoandrade.calendarmobile.presentation.view.EventsActivity;
 
 import java.util.List;
@@ -21,10 +22,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     List<Day> listDay;
     String month;
+    LaunchActivityInterface launcActivity;
 
-    public CalendarAdapter(List<Day> listDay, String month) {
+    public CalendarAdapter(List<Day> listDay, String month, LaunchActivityInterface launchActivityInterface) {
         this.listDay = listDay;
         this.month=month;
+        launcActivity= launchActivityInterface;
     }
 
     @NonNull
@@ -46,6 +49,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     public int getItemCount() {
         return listDay.size();
     }
+
+
 
     public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.day)
@@ -74,7 +79,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             number.setText(day.getDayNumber() + "");
             if (day.getDayDetailsList().getListRemainders() != null) {
                 remainders.setVisibility(View.VISIBLE);
-                remainders.setText(day.getDayDetailsList().getListRemainders().size() + "");
+                remainders.setText(day.getDayDetailsList().getsize()+ "");
                 remainders_line.setVisibility(View.VISIBLE);
 
             }
@@ -90,13 +95,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 remainderTotal = itemViewDay.getDayDetailsList().getListRemainders().size();
             }
 
-            Intent view = new Intent(v.getContext(), EventsActivity.class);
-            view.putExtra("weekDay", itemViewDay.getDayDetailsList().getWeekDay());
-            view.putExtra("dayNumber", itemViewDay.getDayNumber());
-            view.putExtra("remainderTotal", remainderTotal);
-            view.putExtra("month", month);
+            launcActivity.passData(itemViewDay.getDayDetailsList().getWeekDay()
+                    ,itemViewDay.getDayNumber()
+                    ,remainderTotal
+                    ,month);
 
-            v.getContext().startActivity(view);
         }
+
     }
 }
